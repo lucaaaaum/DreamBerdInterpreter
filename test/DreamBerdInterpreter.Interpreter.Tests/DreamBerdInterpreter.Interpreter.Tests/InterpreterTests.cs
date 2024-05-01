@@ -21,6 +21,6 @@ public class InterpreterTests
         var fakeConsole = new FakeConsole();
         var interpreter = new Interpreter(fakeConsole);
         interpreter.Interpret(_fileContent);
-        Assert.That(fakeConsole.Output, Is.EqualTo("batatinha"));
+        Assert.That(fakeConsole.Output, Is.EqualTo("batatinha" + Environment.NewLine));
     }
 }
