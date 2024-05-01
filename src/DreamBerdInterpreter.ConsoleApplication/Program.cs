@@ -32,7 +32,7 @@ internal class Program
                 }
 
                 var interpreter = new Interpreter.Interpreter(console);
-                fileContent.GetSanitizedExpression();
+                fileContent = fileContent.GetSanitizedExpression();
                 interpreter.Interpret(fileContent);
             }
         );
