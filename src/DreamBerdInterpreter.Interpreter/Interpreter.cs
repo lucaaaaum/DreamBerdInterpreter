@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using DreamBerdInterpreter.Infrastructure.Console;
+using DreamBerdInterpreter.Interpreter.Expressions;
 using DreamBerdInterpreter.Interpreter.Extensions;
 using DreamBerdInterpreter.Interpreter.Types;
 
@@ -11,8 +12,8 @@ public class Interpreter(IConsole console)
     private IDictionary<string, VarConst> _variables = new Dictionary<string, VarConst>();
     private IDictionary<string, Function> _functions = new Dictionary<string, Function>();
 
-    private readonly Regex _expressionSplitRegex = new(
-        @"([!?]+)(?![^{]*})|}",
+    private readonly Regex _subExpressionRegex = new(
+        """([^?!\n]*".*"|[^?!\n]*".*"[^?!\n]*|[^?!\n]*)([?!]+)""",
         RegexOptions.Compiled
     );
 
@@ -42,13 +43,17 @@ public class Interpreter(IConsole console)
 
         foreach (var subExpression in subExpressions)
             if (subExpression.Matches(_varConstRegex))
+        {
             {
                 var variable = GetVarConstFromSubExpression(visibilityLevel, subExpression);
+            if (subExpression.Content.Matches(_varConstRegex))
+            {
+                var variable = GetVarConstFromSubExpression(visibilityLevel, subExpression.Content);
                 _variables.Add(variable.Name, variable);
             }
-            else if (subExpression.Matches(_printRegex))
+            else if (subExpression.Content.Matches(_printRegex))
             {
-                var match = _printRegex.Match(subExpression);
+                var match = _printRegex.Match(subExpression.Content);
                 var thingToPrint = match.Groups[1].ToString();
                 if (thingToPrint.First() == '"' && thingToPrint.Last() == '"')
                 {
@@ -68,15 +73,16 @@ public class Interpreter(IConsole console)
                     _console.WriteErrorMessage("anyway heres the full error stack");
                     throw;
                 }
-                
+
                 _console.WriteLine(variable.Value);
             }
-            else if (subExpression.Matches(_functionCallRegex))
+            else if (subExpression.Content.Matches(_functionCallRegex))
             {
-                var match = _functionCallRegex.Match(subExpression);
+                var match = _functionCallRegex.Match(subExpression.Content);
                 var function = _functions[match.Groups[1].ToString()];
                 Interpret(function.Expression, visibilityLevel + 1);
             }
+        }
 
         return default;
     }
@@ -94,12 +100,22 @@ public class Interpreter(IConsole console)
         return variable;
     }
 
-    private IEnumerable<string> GetSubExpressions(string expression)
+    private List<Expression> GetSubExpressions(string expression)
     {
-        var splittedExpressions = expression.SplitAccordingTo(_expressionSplitRegex);
-        return splittedExpressions.Where(subExpression =>
-            !string.IsNullOrWhiteSpace(subExpression) &&
-            !subExpression.Matches(_onlyHasExclamationPointsAndQuestionMarksRegex)
-        );
+        var matches = _subExpressionRegex.Matches(expression);
+        var subExpressions = new List<Expression>();
+        foreach (Match match in matches)
+        {
+            var expressionContent = match.Groups[1].ToString();
+            var expressionEnd = match.Groups[2].ToString();
+            var subExpression = new Expression(
+                expressionContent,
+                expressionEnd.Contains('?'),
+                expressionEnd.Count(x => x == '!')
+            );
+            subExpressions.Add(subExpression);
+        }
+
+        return subExpressions;
     }
 }
