@@ -11,7 +11,7 @@ public class InterpreterTests
     {
         var cancellationTokenSource = new CancellationTokenSource();
         var cancellationToken = cancellationTokenSource.Token;
-        _fileContent = await File.ReadAllTextAsync("first_script.dreamberd", cancellationToken);
+        _fileContent = await File.ReadAllTextAsync("../../../first_script.dreamberd", cancellationToken);
         cancellationTokenSource.Dispose();
     }
 
