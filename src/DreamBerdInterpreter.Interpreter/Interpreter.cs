@@ -18,7 +18,7 @@ public class Interpreter(IConsole console)
             if (expression.StartsWith("print"))
             {
                 if (expression.EndsWith('?'))
-                    _console.WriteLine($"Trying to evaluate the expression {expression}");
+                    _console.WriteDebugMessage($"Trying to evaluate the expression {expression}");
                 var segments = expression.Split('"');
                 _console.WriteLine(segments[1]);
             }
