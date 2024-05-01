@@ -15,10 +15,11 @@ public class Interpreter(IConsole console)
         
         foreach (var expression in expressions)
         {
+            if (expression.EndsWith('?'))
+                _console.WriteDebugMessage($"Trying to evaluate the expression *{expression}*");
+            
             if (expression.StartsWith("print"))
             {
-                if (expression.EndsWith('?'))
-                    _console.WriteDebugMessage($"Trying to evaluate the expression {expression}");
                 var segments = expression.Split('"');
                 _console.WriteLine(segments[1]);
             }
