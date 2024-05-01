@@ -11,4 +11,8 @@
       <PackageReference Include="Cocona" Version="2.2.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\DreamBerdInterpreter.Interpreter\DreamBerdInterpreter.Interpreter.csproj" />
+    </ItemGroup>
+
 </Project>
