@@ -23,4 +23,14 @@ public class FakeConsole : IConsole
         var prefix = "\uf1e2 Error Info: ";
         WriteLine(prefix + messageToWrite);
     }
+    
+    public char Read()
+    {
+        throw new NotImplementedException();
+    }
+
+    public string ReadLine()
+    {
+        throw new NotImplementedException();
+    }
 }
