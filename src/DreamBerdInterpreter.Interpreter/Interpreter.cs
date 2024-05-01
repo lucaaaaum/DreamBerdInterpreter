@@ -42,10 +42,14 @@ public class Interpreter(IConsole console)
         var subExpressions = GetSubExpressions(expression);
 
         foreach (var subExpression in subExpressions)
-            if (subExpression.Matches(_varConstRegex))
         {
+            if (subExpression.DumbProgrammerWantsToDebug)
             {
-                var variable = GetVarConstFromSubExpression(visibilityLevel, subExpression);
+                _console.WriteDebugMessage($"Evaluating the expression *{subExpression.Content}*");
+                _console.WriteDebugMessage($"It's priority is {subExpression.Priority}");
+                _console.WriteDebugMessage("Hell yeah" + "!".Times(subExpression.Priority));
+            }
+
             if (subExpression.Content.Matches(_varConstRegex))
             {
                 var variable = GetVarConstFromSubExpression(visibilityLevel, subExpression.Content);
