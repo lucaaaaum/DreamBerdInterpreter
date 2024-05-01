@@ -49,10 +49,27 @@ public class Interpreter(IConsole console)
             else if (subExpression.Matches(_printRegex))
             {
                 var match = _printRegex.Match(subExpression);
-                var textToPrint = match.Groups[1].ToString();
-                if (textToPrint.First() == '"' && textToPrint.Last() == '"')
-                    textToPrint = textToPrint.Trim('"');
-                _console.WriteLine(textToPrint);
+                var thingToPrint = match.Groups[1].ToString();
+                if (thingToPrint.First() == '"' && thingToPrint.Last() == '"')
+                {
+                    thingToPrint = thingToPrint.Trim('"');
+                    _console.WriteLine(thingToPrint);
+                    continue;
+                }
+
+                VarConst variable;
+                try
+                {
+                    variable = _variables[thingToPrint];
+                }
+                catch (Exception e)
+                {
+                    _console.WriteErrorMessage($"bro there is no variable called *{thingToPrint}* you dummy");
+                    _console.WriteErrorMessage("anyway heres the full error stack");
+                    throw;
+                }
+                
+                _console.WriteLine(variable.Value);
             }
             else if (subExpression.Matches(_functionCallRegex))
             {
@@ -71,6 +88,8 @@ public class Interpreter(IConsole console)
         var editable = match.Groups[2].ToString() == "var";
         var name = match.Groups[3].ToString();
         var value = match.Groups[4].ToString();
+        if (value.First() == '"' && value.Last() == '"')
+            value = value.Trim('"');
         var variable = new VarConst(value, name, editable, reassignable, visibilityLevel);
         return variable;
     }
