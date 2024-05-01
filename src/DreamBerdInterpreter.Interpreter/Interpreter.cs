@@ -66,19 +66,11 @@ public class Interpreter(IConsole console)
                     continue;
                 }
 
-                VarConst variable;
-                try
-                {
-                    variable = _variables[thingToPrint];
-                }
-                catch (Exception e)
-                {
-                    _console.WriteErrorMessage($"bro there is no variable called *{thingToPrint}* you dummy");
-                    _console.WriteErrorMessage("anyway heres the full error stack");
-                    throw;
-                }
-
-                _console.WriteLine(variable.Value);
+                _console.WriteLine(
+                    _variables.TryGetValue(thingToPrint, out var variable)
+                        ? variable.Value
+                        : thingToPrint
+                );
             }
             else if (subExpression.Content.Matches(_functionCallRegex))
             {
