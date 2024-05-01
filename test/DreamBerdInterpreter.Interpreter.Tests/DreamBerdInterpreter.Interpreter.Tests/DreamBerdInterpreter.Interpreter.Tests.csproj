@@ -17,4 +17,9 @@
         <PackageReference Include="coverlet.collector" Version="6.0.0"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\src\DreamBerdInterpreter.Interpreter\DreamBerdInterpreter.Interpreter.csproj" />
+      <ProjectReference Include="..\..\DreamBerd.Infrastructure.Tests\DreamBerd.Infrastructure.Tests.csproj" />
+    </ItemGroup>
+
 </Project>
