@@ -1,3 +1,10 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿namespace DreamBerdInterpreter.ConsoleApplication;
 
-Console.WriteLine("Hello, World!");
+internal class Program
+{
+    public static void Main(string[] args)
+    {
+        var path = args[0];
+        
+    }
+}
