@@ -11,4 +11,16 @@ public class FakeConsole : IConsole
     public void Write(string textToWrite) => _stringBuilder.Append(textToWrite);
 
     public void WriteLine(string textToWrite) => _stringBuilder.AppendLine(textToWrite);
+
+    public void WriteDebugMessage(string messageToWrite)
+    {
+        var prefix = "\ue490 Debug Info: ";
+        WriteLine(prefix + messageToWrite);
+    }
+
+    public void WriteErrorMessage(string messageToWrite)
+    {
+        var prefix = "\uf1e2 Error Info: ";
+        WriteLine(prefix + messageToWrite);
+    }
 }
