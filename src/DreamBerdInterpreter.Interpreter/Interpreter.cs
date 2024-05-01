@@ -9,7 +9,7 @@ public class Interpreter(IConsole console)
 {
     private readonly IConsole _console = console;
     private IDictionary<string, VarConst> _variables = new Dictionary<string, VarConst>();
-    private IDictionary<string, string> _functions = new Dictionary<string, string>();
+    private IDictionary<string, Function> _functions = new Dictionary<string, Function>();
 
     private Regex expressionSplitRegex = new(@"([!?]+)(?![^{]*})|}", RegexOptions.Compiled);
     private Regex onlyHasExclamationPointsAndQuestionMarksRegex = new("^[!?]+$", RegexOptions.Compiled);
