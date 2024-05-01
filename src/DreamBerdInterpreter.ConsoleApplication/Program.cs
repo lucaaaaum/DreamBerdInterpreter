@@ -8,8 +8,9 @@ internal class Program
     public static void Main() =>
         CoconaApp.Run(([Argument] string path) =>
         {
+            var console = new ConsoleWrapper();
             if (!File.Exists(path))
-                Console.WriteLine("Bro I can't run this, the path is invalid!");
+                console.WriteErrorMessage("Bro I can't run this, the path is invalid!");
             var fileContent = string.Empty;
             try
             {
@@ -17,11 +18,11 @@ internal class Program
             }
             catch (Exception e)
             {
-                Console.WriteLine("sumthing happend idunno");
-                Console.WriteLine("here's the log if you know dotnet:");
-                Console.WriteLine(e);
+                console.WriteErrorMessage("sumthing happend idunno");
+                console.WriteErrorMessage("here's the log if you know dotnet:");
+                console.WriteErrorMessage(e.ToString());
             }
-            var interpreter = new Interpreter.Interpreter(new ConsoleWrapper());
+            var interpreter = new Interpreter.Interpreter(console);
             interpreter.Interpret(fileContent);
         });
 }
