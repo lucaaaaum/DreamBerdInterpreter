@@ -18,6 +18,7 @@ public class ConsoleWrapper : IConsole
         System.Console.ForegroundColor = defaultForeGroundColor;
         WriteLine(" " + messageToWrite);
     }
+
     public void WriteErrorMessage(string messageToWrite)
     {
         var prefix = "\uf1e2  Error Info: ";
@@ -30,8 +31,15 @@ public class ConsoleWrapper : IConsole
         System.Console.ForegroundColor = defaultForeGroundColor;
         WriteLine(" " + messageToWrite);
     }
-    
-    public char Read() => (char) System.Console.Read();
+
+    public char Read()
+    {
+        return (char)System.Console.Read();
+    }
+
+    public char ReadKey() => System.Console.ReadKey().KeyChar;
 
     public string ReadLine() => System.Console.ReadLine() ?? string.Empty;
+
+    public void Clear() => System.Console.Clear();
 }

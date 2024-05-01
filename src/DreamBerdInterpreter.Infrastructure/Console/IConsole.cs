@@ -7,5 +7,7 @@ public interface IConsole
     public void WriteErrorMessage(string messageToWrite);
     public void WriteDebugMessage(string messageToWrite);
     public char Read();
+    public char ReadKey();
     public string ReadLine();
+    public void Clear();
 }

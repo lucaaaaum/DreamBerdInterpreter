@@ -7,10 +7,16 @@ public class FakeConsole : IConsole
 {
     private StringBuilder _stringBuilder = new();
     public string Output => _stringBuilder.ToString();
-    
-    public void Write(string textToWrite) => _stringBuilder.Append(textToWrite);
 
-    public void WriteLine(string textToWrite) => _stringBuilder.AppendLine(textToWrite);
+    public void Write(string textToWrite)
+    {
+        _stringBuilder.Append(textToWrite);
+    }
+
+    public void WriteLine(string textToWrite)
+    {
+        _stringBuilder.AppendLine(textToWrite);
+    }
 
     public void WriteDebugMessage(string messageToWrite)
     {
@@ -23,8 +29,13 @@ public class FakeConsole : IConsole
         var prefix = "\uf1e2 Error Info: ";
         WriteLine(prefix + messageToWrite);
     }
-    
+
     public char Read()
+    {
+        throw new NotImplementedException();
+    }
+
+    public char ReadKey()
     {
         throw new NotImplementedException();
     }
@@ -32,5 +43,10 @@ public class FakeConsole : IConsole
     public string ReadLine()
     {
         throw new NotImplementedException();
+    }
+
+    public void Clear()
+    {
+        _stringBuilder.Clear();
     }
 }
