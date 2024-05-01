@@ -6,7 +6,7 @@ public class Interpreter(IConsole console)
 {
     private readonly IConsole _console = console;
 
-    public static void Interpret(string fileContent)
+    public void Interpret(string fileContent)
     {
         
     }
