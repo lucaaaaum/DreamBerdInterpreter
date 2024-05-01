@@ -9,17 +9,26 @@ public class Interpreter(IConsole console)
 
     public void Interpret(string fileContent)
     {
-        GetFileContentWithoutComments(fileContent);
+        fileContent = GetFileContentSanitized(fileContent);
     }
 
-    private static void GetFileContentWithoutComments(string fileContent)
+    private string GetFileContentSanitized(string fileContent)
     {
         var lines = fileContent.Split(Environment.NewLine);
-        var linesNotCommentedOut = lines.Where(line => !line.StartsWith("//"));
-        fileContent = BuildStringFromLines(linesNotCommentedOut);
+        var linesSanitized = GetSanitizedLines(lines);
+        return BuildStringFromLines(linesSanitized);
     }
 
-    public static string BuildStringFromLines(IEnumerable<string> lines)
+    private static IEnumerable<string> GetSanitizedLines(string[] lines) =>
+        lines.Where(line => NotCommentedOut(line) && NotEmpty(line)).Select(LineTrimmed);
+
+    private static bool NotCommentedOut(string line) => !line.StartsWith("//");
+    
+    private static bool NotEmpty(string line) => !string.IsNullOrWhiteSpace(line);
+    
+    private static string LineTrimmed(string line) => line.Trim();
+
+    private static string BuildStringFromLines(IEnumerable<string> lines)
     {
         var stringBuilder = new StringBuilder();
         foreach (var line in lines)
