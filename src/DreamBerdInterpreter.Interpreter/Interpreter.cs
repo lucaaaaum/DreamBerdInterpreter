@@ -31,10 +31,17 @@ public class Interpreter(IConsole console)
         var charCounter = 0;
         foreach (var currentChar in fileContent)
         {
-            if (AnExpressionHasEndedInThePreviousChar(previousChar, currentChar) || ItsTheLastChar(fileContent, charCounter))
+            if (AnExpressionHasEndedInThePreviousChar(previousChar, currentChar))
             {
                 expressions.Add(GetStringFromCharEnumerable(currentExpression));
                 currentExpression.Clear();
+            }
+
+            if (ItsTheLastChar(fileContent, charCounter))
+            {
+                currentExpression.Add(currentChar);
+                expressions.Add(GetStringFromCharEnumerable(currentExpression));
+                break;
             }
             
             currentExpression.Add(currentChar);
