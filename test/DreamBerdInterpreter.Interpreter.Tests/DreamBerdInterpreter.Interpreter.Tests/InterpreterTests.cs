@@ -1,6 +1,6 @@
 namespace DreamBerdInterpreter.Interpreter.Tests;
 
-public class Tests
+public class InterpreterTests
 {
     [SetUp]
     public void Setup()
