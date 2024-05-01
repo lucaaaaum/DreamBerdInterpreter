@@ -1,4 +1,4 @@
-using System.Text;
+using System.Text.RegularExpressions;
 using DreamBerdInterpreter.Infrastructure.Console;
 
 namespace DreamBerdInterpreter.Interpreter;
@@ -6,89 +6,24 @@ namespace DreamBerdInterpreter.Interpreter;
 public class Interpreter(IConsole console)
 {
     private readonly IConsole _console = console;
+    private IDictionary<string, string> _variables = new Dictionary<string, string>();
+    private IDictionary<string, string> _functions = new Dictionary<string, string>();
 
-    public void Interpret(string fileContent)
+    private Regex expressionSplitRegex = new(@"([!?]+)(?![^{]*})|}", RegexOptions.Compiled);
+    private Regex onlyHasExclamationPointsAndQuestionMarksRegex = new("^[!?]+$");
+    private Regex varConstRegex = new(@"(var|const)\s*(var|const)\s*([^\s]*)", RegexOptions.Compiled);
+
+    public void Interpret(string expression)
     {
-        fileContent = GetFileContentSanitized(fileContent);
-        
-        var expressions = GetExpressions(fileContent);
-        
-        foreach (var expression in expressions)
-        {
-            if (expression.EndsWith('?'))
-                _console.WriteDebugMessage($"Trying to evaluate the expression *{expression}*");
-            
-            if (expression.StartsWith("print"))
-            {
-                var segments = expression.Split('"');
-                _console.WriteLine(segments[1]);
-            }
-        }
+        var subExpressions = GetSubExpressions(expression);
     }
 
-    private static IEnumerable<string> GetExpressions(string fileContent)
+    private IEnumerable<string> GetSubExpressions(string expression)
     {
-        var expressions = new List<string>();
-        var currentExpression = new List<char>();
-        var previousChar = char.MinValue;
-        var charCounter = 0;
-        foreach (var currentChar in fileContent)
-        {
-            if (AnExpressionHasEndedInThePreviousChar(previousChar, currentChar))
-            {
-                expressions.Add(GetStringFromCharEnumerable(currentExpression));
-                currentExpression.Clear();
-            }
-
-            if (ItsTheLastChar(fileContent, charCounter))
-            {
-                currentExpression.Add(currentChar);
-                expressions.Add(GetStringFromCharEnumerable(currentExpression));
-                break;
-            }
-            
-            currentExpression.Add(currentChar);
-            previousChar = currentChar;
-            charCounter++;
-        }
-
-        return expressions;
-    }
-
-    private static bool AnExpressionHasEndedInThePreviousChar(char previousChar, char currentChar) => 
-        previousChar is '!' or '?' && currentChar is not '!' and not '?' and not '"';
-
-    private static bool ItsTheLastChar(string fileContent, int charCounter) => charCounter == fileContent.Length - 1;
-
-    private string GetFileContentSanitized(string fileContent)
-    {
-        var lines = fileContent.Split(Environment.NewLine);
-        var linesSanitized = GetSanitizedLines(lines);
-        return BuildStringFromLines(linesSanitized);
-    }
-
-    private static IEnumerable<string> GetSanitizedLines(string[] lines) =>
-        lines.Where(line => NotCommentedOut(line) && NotEmpty(line)).Select(LineTrimmed);
-
-    private static bool NotCommentedOut(string line) => !line.StartsWith("//");
-    
-    private static bool NotEmpty(string line) => !string.IsNullOrWhiteSpace(line);
-    
-    private static string LineTrimmed(string line) => line.Trim();
-
-    private static string BuildStringFromLines(IEnumerable<string> lines)
-    {
-        var stringBuilder = new StringBuilder();
-        foreach (var line in lines)
-            stringBuilder.Append(line);
-        return stringBuilder.ToString();
-    }
-
-    private static string GetStringFromCharEnumerable(IEnumerable<char> charEnumerable)
-    {
-        var stringBuilder = new StringBuilder();
-        foreach (var c in charEnumerable)
-            stringBuilder.Append(c);
-        return stringBuilder.ToString();
+        var splittedExpressions = expressionSplitRegex.Split(expression);
+        return splittedExpressions.Where(subExpression =>
+            !string.IsNullOrWhiteSpace(subExpression) &&
+            onlyHasExclamationPointsAndQuestionMarksRegex.IsMatch(subExpression)
+        );
     }
 }
