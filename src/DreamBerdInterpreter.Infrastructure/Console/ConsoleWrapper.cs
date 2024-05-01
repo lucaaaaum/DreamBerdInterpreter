@@ -8,23 +8,27 @@ public class ConsoleWrapper : IConsole
 
     public void WriteDebugMessage(string messageToWrite)
     {
-        var prefix = "\ue490 Debug Info: ";
+        var prefix = "\ue490 Debug Info:";
+        var defaultBackgroundColor = System.Console.BackgroundColor;
+        var defaultForeGroundColor = System.Console.ForegroundColor;
         System.Console.BackgroundColor = ConsoleColor.Yellow;
         System.Console.ForegroundColor = ConsoleColor.Gray;
         Write(prefix);
-        System.Console.BackgroundColor = default;
-        System.Console.ForegroundColor = default;
-        WriteLine(messageToWrite);
+        System.Console.BackgroundColor = defaultBackgroundColor;
+        System.Console.ForegroundColor = defaultForeGroundColor;
+        WriteLine(" " + messageToWrite);
     }
 
     public void WriteErrorMessage(string messageToWrite)
     {
         var prefix = "\uf1e2 Error Info: ";
+        var defaultBackgroundColor = System.Console.BackgroundColor;
+        var defaultForeGroundColor = System.Console.ForegroundColor;
         System.Console.BackgroundColor = ConsoleColor.Red;
         System.Console.ForegroundColor = ConsoleColor.Gray;
         Write(prefix);
-        System.Console.BackgroundColor = default;
-        System.Console.ForegroundColor = default;
-        WriteLine(messageToWrite);
+        System.Console.BackgroundColor = defaultBackgroundColor;
+        System.Console.ForegroundColor = defaultForeGroundColor;
+        WriteLine(" " + messageToWrite);
     }
 }
