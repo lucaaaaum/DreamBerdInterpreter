@@ -50,6 +50,8 @@ public class Interpreter(IConsole console)
             {
                 var match = _printRegex.Match(subExpression);
                 var textToPrint = match.Groups[1].ToString();
+                if (textToPrint.First() == '"' && textToPrint.Last() == '"')
+                    textToPrint = textToPrint.Trim('"');
                 _console.WriteLine(textToPrint);
             }
             else if (subExpression.Matches(_functionCallRegex))
