@@ -56,7 +56,7 @@ public class Interpreter(IConsole console)
     }
 
     private static bool AnExpressionHasEndedInThePreviousChar(char previousChar, char currentChar) => 
-        (previousChar == '!' && currentChar != '!');
+        previousChar is '!' or '?' && currentChar is not '!' and not '?' and not '"';
 
     private static bool ItsTheLastChar(string fileContent, int charCounter) => charCounter == fileContent.Length - 1;
 
