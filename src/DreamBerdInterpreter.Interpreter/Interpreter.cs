@@ -10,7 +10,46 @@ public class Interpreter(IConsole console)
     public void Interpret(string fileContent)
     {
         fileContent = GetFileContentSanitized(fileContent);
+        
+        var expressions = GetExpressions(fileContent);
+        
+        foreach (var expression in expressions)
+        {
+            if (expression.StartsWith("print"))
+            {
+                var segments = expression.Split('"');
+                _console.WriteLine(segments[1]);
+            }
+        }
     }
+
+    private static IEnumerable<string> GetExpressions(string fileContent)
+    {
+        var expressions = new List<string>();
+        var currentExpression = new List<char>();
+        var previousChar = char.MinValue;
+        var charCounter = 0;
+        foreach (var currentChar in fileContent)
+        {
+            currentExpression.Add(currentChar);
+
+            if (AnExpressionHasEndedInThePreviousChar(previousChar, currentChar) || ItsTheLastChar(fileContent, charCounter))
+            {
+                expressions.Add(GetStringFromCharEnumerable(currentExpression));
+                currentExpression.Clear();
+            }
+
+            previousChar = currentChar;
+            charCounter++;
+        }
+
+        return expressions;
+    }
+
+    private static bool AnExpressionHasEndedInThePreviousChar(char previousChar, char currentChar) => 
+        (previousChar == '!' && currentChar != '!');
+
+    private static bool ItsTheLastChar(string fileContent, int charCounter) => charCounter == fileContent.Length - 1;
 
     private string GetFileContentSanitized(string fileContent)
     {
@@ -32,7 +71,15 @@ public class Interpreter(IConsole console)
     {
         var stringBuilder = new StringBuilder();
         foreach (var line in lines)
-            stringBuilder.AppendLine(line);
+            stringBuilder.Append(line);
+        return stringBuilder.ToString();
+    }
+
+    private static string GetStringFromCharEnumerable(IEnumerable<char> charEnumerable)
+    {
+        var stringBuilder = new StringBuilder();
+        foreach (var c in charEnumerable)
+            stringBuilder.Append(c);
         return stringBuilder.ToString();
     }
 }
