@@ -6,6 +6,7 @@ namespace DreamBerd.Infrastructure.Tests;
 public class FakeConsole : IConsole
 {
     private StringBuilder _stringBuilder = new();
+    public string Output => _stringBuilder.ToString();
     
     public void Write(string textToWrite) => _stringBuilder.Append(textToWrite);
 
