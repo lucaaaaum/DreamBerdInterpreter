@@ -9,8 +9,13 @@ internal class Program
         CoconaApp.Run(([Argument] string path) =>
         {
             var console = new ConsoleWrapper();
+            
             if (!File.Exists(path))
+            {
                 console.WriteErrorMessage("Bro I can't run this, the path is invalid!");
+                return;
+            }
+            
             var fileContent = string.Empty;
             try
             {
