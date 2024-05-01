@@ -9,9 +9,14 @@ public class Interpreter(IConsole console)
 
     public void Interpret(string fileContent)
     {
+        GetFileContentWithoutComments(fileContent);
+    }
+
+    private static void GetFileContentWithoutComments(string fileContent)
+    {
         var lines = fileContent.Split(Environment.NewLine);
         var linesNotCommentedOut = lines.Where(line => !line.StartsWith("//"));
-        fileContent = BuildStringFromLines(lines);
+        fileContent = BuildStringFromLines(linesNotCommentedOut);
     }
 
     public static string BuildStringFromLines(IEnumerable<string> lines)
