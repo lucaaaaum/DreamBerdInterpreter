@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DreamBerdInterpreter.Infras
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DreamBerd.Infrastructure.Tests", "test\DreamBerd.Infrastructure.Tests\DreamBerd.Infrastructure.Tests.csproj", "{585DF0C8-B6F2-46A5-B24D-02106A3529F3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DreamBerdInterpreter.ConsoleApplication", "src\DreamBerdInterpreter.ConsoleApplication\DreamBerdInterpreter.ConsoleApplication.csproj", "{233ED931-42F7-4106-98E9-35B9AFBEB63C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,6 +24,7 @@ Global
 		{4C6D0C67-0C42-445A-87C2-855A3C49A3A5} = {806A5F09-63B9-4146-89AE-8B00BE4DEFDF}
 		{177ED90A-0DBA-430E-902A-5E295D947EEA} = {A38E1951-078B-4A7C-AFF2-E11D357E470D}
 		{585DF0C8-B6F2-46A5-B24D-02106A3529F3} = {806A5F09-63B9-4146-89AE-8B00BE4DEFDF}
+		{233ED931-42F7-4106-98E9-35B9AFBEB63C} = {A38E1951-078B-4A7C-AFF2-E11D357E470D}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{F3AFB7E9-9F8C-44DD-A464-3F685E424EF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -40,5 +43,9 @@ Global
 		{585DF0C8-B6F2-46A5-B24D-02106A3529F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{585DF0C8-B6F2-46A5-B24D-02106A3529F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{585DF0C8-B6F2-46A5-B24D-02106A3529F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{233ED931-42F7-4106-98E9-35B9AFBEB63C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{233ED931-42F7-4106-98E9-35B9AFBEB63C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{233ED931-42F7-4106-98E9-35B9AFBEB63C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{233ED931-42F7-4106-98E9-35B9AFBEB63C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
