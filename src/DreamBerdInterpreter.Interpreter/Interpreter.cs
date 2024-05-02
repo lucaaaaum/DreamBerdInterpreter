@@ -9,8 +9,8 @@ namespace DreamBerdInterpreter.Interpreter;
 public class Interpreter(IConsole console)
 {
     private readonly IConsole _console = console;
-    private IDictionary<string, VarConst> _variables = new Dictionary<string, VarConst>();
-    private IDictionary<string, Function> _functions = new Dictionary<string, Function>();
+    private readonly IDictionary<string, VarConst> _variables = new Dictionary<string, VarConst>();
+    private readonly IDictionary<string, Function> _functions = new Dictionary<string, Function>();
 
     private readonly Regex _subExpressionRegex = new(
         """([^?!\n]*".*"|[^?!\n]*".*"[^?!\n]*|[^?!\n]*)([?!]+)""",
