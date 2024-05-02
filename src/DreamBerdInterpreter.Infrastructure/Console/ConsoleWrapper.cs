@@ -37,7 +37,7 @@ public class ConsoleWrapper : IConsole
         return (char)System.Console.Read();
     }
 
-    public char ReadKey() => System.Console.ReadKey().KeyChar;
+    public char ReadKey() => System.Console.ReadKey(true).KeyChar;
 
     public string ReadLine() => System.Console.ReadLine() ?? string.Empty;
 
