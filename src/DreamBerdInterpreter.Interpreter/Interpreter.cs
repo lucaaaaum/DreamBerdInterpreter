@@ -86,9 +86,15 @@ public class Interpreter(IConsole console)
     private VarConst GetVarConstFromSubExpression(int visibilityLevel, string subExpression)
     {
         var match = _varConstRegex.Match(subExpression);
+        var name = match.Groups[3].ToString();
+        if (_variables.ContainsKey(name))
+        {
+            _console.WriteErrorMessage("you should see a doctor, because you show signs of dementia");
+            _console.WriteErrorMessage($"there already is a variable with the name *{name}*");
+            throw new Exception();
+        }
         var reassignable = match.Groups[1].ToString() == "var";
         var editable = match.Groups[2].ToString() == "var";
-        var name = match.Groups[3].ToString();
         var value = match.Groups[4].ToString();
         if (value.First() == '"' && value.Last() == '"')
             value = value.Trim('"');
