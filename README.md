@@ -1,5 +1,4 @@
 # DreamBerdInterpreter
----
 ## Introduction
 ### What the hell is a DreamBerd and why should I interpret one?
 DreamBerd is, put it simple, the *perfect* language. It was developed by [TodePond](https://github.com/TodePond) and is currently maintained by them. If you want to check out the original DreamBerd language definition, be sure to go to [the project's repo](https://github.com/TodePond/DreamBerd).
